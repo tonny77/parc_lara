@@ -16,3 +16,25 @@ use Illuminate\Http\Request;
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
+
+Route::group(['middleware' => 'guest:api'], function() {
+    Route::post('/login', 'JWTAuthController@login');
+});
+
+Route::group(['middleware' => 'auth:api'], function() {
+    Route::get('/me', 'JWTAuthController@me');
+});
+
+// Route::group([
+//
+//     'middleware' => 'api',
+//     'prefix' => 'auth'
+// 
+// ], function ($router) {
+//
+//     Route::post('login', 'JWTAuthController@login');
+//     Route::post('logout', 'JWTAuthController@logout');
+//     Route::post('refresh', 'JWTAuthController@refresh');
+//     Route::post('me', 'JWTAuthController@me');
+//
+// });
